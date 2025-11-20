@@ -1,9 +1,11 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
-
+const cookieParser = require("cookie-parser");
 
 const {connectToDB} = require("./config/db");
+
+const authRouter = require("./routes/auth.routes");
 
 
 dotenv.config();
@@ -16,12 +18,15 @@ const app = express();
 // Middlewares
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 
 
 app.get("/", (req, res) => {
   res.send("API running...");
 });
+
+app.use("/api/auth", authRouter);
 
 const PORT = process.env.PORT || 3000;
 
