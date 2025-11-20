@@ -100,3 +100,31 @@ exports.logout = async (req, res) => {
         res.status(500).json({ message: "Server error during logout" });
     }
 };
+
+exports.verifyAuth = async (req, res) => {
+  try {
+      const token = req.cookies?.token;
+    
+      if (!token) {
+        return res.status(401).json({ message: "Access denied. No token provided." });
+      }
+    
+      // Verify token
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+      res.status(200).json({
+        message:"Successfully authenticated.",
+        user: decoded
+      })
+  } catch (error) {
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({ message: "Token expired" });
+    }
+
+    if (error.name === "JsonWebTokenError") {
+      return res.status(401).json({ message: "Invalid token" });
+    }
+
+    return res.status(500).json({ message: "Server error" });
+  }
+}
