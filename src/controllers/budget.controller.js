@@ -75,17 +75,6 @@ exports.updateBudget = async(req, res) => {
         const { categoryId, limit , month, year , id } = req.body;
         const userId = req.user.id;
 
-        // Check budget exist for category in same month & year
-        const existingBudget = await Budget.findOne({
-            userId,
-            categoryId,
-            month,
-            year
-        });
-
-        if(existingBudget){
-            return res.status(400).json({ message: "This category already has a budget for the selected month and year" });
-        }
 
         const updatedBudget = await Budget.findOneAndUpdate(
             { userId , _id : id  },

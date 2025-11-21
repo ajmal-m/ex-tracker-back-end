@@ -1,16 +1,15 @@
 const Expense = require("../models/expense.model");
-const Category = require("../models/category.model");
-const Budget = require("../models/budget.model");
 const mongoose = require("mongoose");
 
 exports.getCategoryWiseData = async (req, res) => {
     const userId = req.user.id;
-    const {month, year} = req.query;
+    let {month, year} = req.query;
+    console.log(typeof Number(month), year)
     try {
         const datas = await Expense.aggregate([
 
              {
-                $match:{
+                $match:{ 
                     month:Number(month),
                     year:Number(year),
                     userId:  new mongoose.Types.ObjectId(userId)
@@ -55,7 +54,7 @@ exports.getCategoryWiseData = async (req, res) => {
                 }
             }
         ])
-        res.status(200).json(datas)
+        res.status(200).json({ datas })
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "Server error" });
