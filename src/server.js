@@ -35,11 +35,11 @@ app.get("/", (req, res) => {
   res.send("API running...");
 });
 
-app.use("/api/auth", authRouter);
-app.use("/api/category", categoryRouter);
-app.use("/api/budget", budgetRouter);
-app.use("/api/expense", expenseRouter);
-app.use("/api/report", reportRouter);
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/category", categoryRouter);
+app.use("/api/v1/budget", budgetRouter);
+app.use("/api/v1/expense", expenseRouter);
+app.use("/api/v1/report", reportRouter);
 
 const PORT = process.env.PORT || 3000;
 
