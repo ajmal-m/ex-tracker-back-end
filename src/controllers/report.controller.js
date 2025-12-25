@@ -4,7 +4,6 @@ const mongoose = require("mongoose");
 exports.getCategoryWiseData = async (req, res) => {
     const userId = req.user.id;
     let {month, year} = req.query;
-    console.log(typeof Number(month), year)
     try {
         const datas = await Expense.aggregate([
 
@@ -22,6 +21,15 @@ exports.getCategoryWiseData = async (req, res) => {
                    count: { $sum: 1 },
                 }
             },
+            {
+                $lookup: {
+                from: "categories",
+                localField: "_id",
+                foreignField: "_id",
+                as: "category"
+                }
+            },
+            { $unwind: "$category" },
             {
                 $lookup: {
                     from: "budgets",
@@ -46,7 +54,7 @@ exports.getCategoryWiseData = async (req, res) => {
             { $unwind: { path: "$budgetData", preserveNullAndEmptyArrays: true } },
             {
                 $project: {
-                    categoryId: "$_id",
+                    category:1,
                     spend: 1,
                     count: 1,
                     limit: "$budgetData.limit",
