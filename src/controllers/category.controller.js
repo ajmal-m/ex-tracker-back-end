@@ -2,7 +2,8 @@ const Category = require("../models/category.model");
 
 exports.getCategories = async (req,res) => {
     try {
-        const categories  = await Category.find({ userId: req.user.id });
+        const userId = "691f328a7515a02207b6e796";
+        const categories  = await Category.find({ userId });
         res.status(200).json({
             categories ,
             message: "Categories retrieved successfully."
@@ -17,7 +18,7 @@ exports.getCategories = async (req,res) => {
 exports.addCategory = async (req, res) => {
     try {
         const { name} = req.body;
-        const userId = req.user.id;
+        const userId = req?.user?.id ?? 'undefined';
 
         if (!name || name.trim() === "") {
             return res.status(400).json({ message: "Category name is required" });
@@ -25,7 +26,6 @@ exports.addCategory = async (req, res) => {
 
         const newCategory = await Category.create({
             name : name.trim(),
-            userId
         });
 
         res.status(201).json({

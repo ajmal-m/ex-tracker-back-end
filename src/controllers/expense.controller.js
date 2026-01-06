@@ -1,8 +1,9 @@
+const { Types } = require("mongoose");
 const Expense = require("../models/expense.model");
 
 exports.getExpense = async (req, res) => {
     try {
-        const userId = req.user.id;
+        const userId = '691f328a7515a02207b6e796';
         const { month, year , categoryId } = req.query;
         if(!month ||!year){
             return res.status(400).json({
@@ -33,12 +34,13 @@ exports.getExpense = async (req, res) => {
 
 exports.createExpense = async (req, res) => {
     try {
-        const { categoryId , month, year, expense} = req.body;
-        const userId = req.user.id;
+        const {  month, year, expense , day} = req.body;
+        const userId = '691f328a7515a02207b6e796';
+        const categoryId = '694cdfb5949d5c6bcb50f89c';
 
-        if (!categoryId || !month || !year || !expense) {
+        if (!categoryId || !month || !year || !expense || ! day) {
             return res.status(400).json({
-                message: "Category, month, year, and expense are required."
+                message: "Category, month, year, day and expense  are required."
             });
         }
 
@@ -47,7 +49,8 @@ exports.createExpense = async (req, res) => {
             categoryId,
             month,
             year,
-            expense
+            expense,
+            day
         });
 
         res.status(201).json({
