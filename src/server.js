@@ -10,6 +10,7 @@ const categoryRouter = require('./routes/category.routes');
 const budgetRouter = require("./routes/budget.routes");
 const expenseRouter = require('./routes/expense.routes');
 const reportRouter = require('./routes/report.routes');
+const userRouter = require("./routes/user.routes");
 
 
 dotenv.config();
@@ -40,6 +41,7 @@ app.use("/api/v1/category", categoryRouter);
 app.use("/api/v1/budget", budgetRouter);
 app.use("/api/v1/expense", expenseRouter);
 app.use("/api/v1/report", reportRouter);
+app.use("/api/v1/user", userRouter);
 
 const PORT = process.env.PORT || 3000;
 
